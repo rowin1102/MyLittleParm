@@ -1,0 +1,136 @@
+/* 거래게시판 결제 페이지 */
+.transaction-layout {
+  display: flex;
+  gap: 20px;
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 1rem;
+}
+
+/* 사이드바 */
+.transaction-sidebar {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.map-box {
+  margin-top: 10px;
+}
+.map-placeholder {
+  height: 300px;
+  background: #f2f2f2;
+  border: 1px dashed #aaa;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+/* 본문 */
+.transaction-content {
+  flex: 3;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.page-title {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* 폼 */
+.payment-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.payment-form input,
+.payment-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.payment-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  display: none;
+}
+
+.btn-submit {
+  margin-top: 25px;
+  width: 100%;
+  padding: 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.btn-submit:hover {
+  background-color: #1976d2;
+}
+
+/* ===================== */
+/* 🌙 다크모드 오버라이드 */
+/* ===================== */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .transaction-sidebar {
+  background: #1e1e1e;
+  border-color: #444;
+  box-shadow: none;
+}
+
+body.dark-mode .map-placeholder {
+  background: #2a2a2a;
+  border-color: #555;
+  color: #bbb;
+}
+
+body.dark-mode .transaction-content {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: none;
+}
+
+body.dark-mode .page-title {
+  color: #e0e0e0;
+}
+
+body.dark-mode .payment-form input,
+body.dark-mode .payment-form select {
+  background: #2a2a2a;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+body.dark-mode .payment-section {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark-mode .btn-submit {
+  background-color: #1976d2;
+}
+body.dark-mode .btn-submit:hover {
+  background-color: #0d47a1;
+}

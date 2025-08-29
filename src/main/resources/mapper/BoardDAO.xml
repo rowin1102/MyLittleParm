@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.spring.projectjs.jdbc.IBoard">
+    
+    <!-- 상세보기 -->
+    <select id="member_view" parameterType="org.spring.projectjs.jdbc.MemberDTO"
+            resultType="org.spring.projectjs.jdbc.MemberDTO">
+        select * from member where user_id = #{param1}
+    </select>
+
+    <!-- name title content ofile, sfile board_visitcount board_good board_worse
+    게시판 등록 -->
+    <insert id="insert" parameterType="org.spring.projectjs.jdbc.BoardDTO">
+        <!-- transaction_idx transaction_price transaction_title transaction_content  -->
+        insert into board (board_idx, board_title, board_content, writer, board_visitcount, 
+        board_id, board_good, board_worse, ofile1, sfile1, ofile2, sfile2, ofile3, sfile3 )
+        values(SEQ_BOARD_NUM.nextval, #{board_title}, #{board_content}, #{writer}, 0, 1, 0, 0,
+        #{ofile1, jdbcType=VARCHAR},
+        #{sfile1, jdbcType=VARCHAR},
+        #{ofile2, jdbcType=VARCHAR},
+        #{sfile2, jdbcType=VARCHAR},
+        #{ofile3, jdbcType=VARCHAR},
+        #{sfile3, jdbcType=VARCHAR} )
+    </insert>
+
+    <!-- searchField searchKeyword 게시물의 총 갯수 -->
+    <select id="totalCount" parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="int">
+
+        select count(*) from board where board_id = 1
+        <if test="searchKeyword != null and !searchKeyword.equals('')">
+            and ${searchField} like '%'||#{searchKeyword}||'%'
+        </if>
+
+    </select>
+
+    <!-- 목록 가져오기 -->
+    <select id="listPage" parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="org.spring.projectjs.jdbc.BoardDTO">
+        select * from (
+        select Tb.*, rownum rNum from (
+        select * from board where board_id = 1
+        <if test="searchKeyword != null and
+ 		!searchKeyword.equals('')">
+            and ${searchField} like '%'||#{searchKeyword}||'%'
+
+        </if>
+        order by board_idx desc
+        ) Tb
+        )
+        where rNum<![CDATA[>=]]>#{start}
+        and rNum<![CDATA[<=]]>#{end}
+
+    </select>
+
+    <!-- 상세보기 -->
+    <select id="view" parameterType="org.spring.projectjs.jdbc.BoardDTO"
+            resultType="org.spring.projectjs.jdbc.BoardDTO">
+        select * from board where board_idx=#{board_idx} and board_id = 1
+    </select>
+
+    <!-- 제목 내용만 업데이트 -->
+    <update id="updateTitleContent">
+        update board set board_title=#{param1}, board_content=#{param2}
+        where board_idx = #{param3}
+    </update>
+
+    <!-- board_title=#{board_title}, board_content=#{board_content},
+    파일만 업데이트
+     -->
+    <update id="updateFile" parameterType="org.spring.projectjs.jdbc.BoardDTO">
+        UPDATE board set
+
+        <if test="num == 1">
+            ofile1 = #{ofile1},
+            sfile1 = #{sfile1}
+        </if>
+        <if test="num == 2">
+            ofile2 = #{ofile2},
+            sfile2 = #{sfile2}
+        </if>
+        <if test="num == 3">
+            ofile3 = #{ofile3},
+            sfile3 = #{sfile3}
+        </if>
+
+        WHERE board_idx = #{board_idx}
+    </update>
+
+    <!-- name title content ofile sfile 사용하지 않음 -->
+    <update id="update" parameterType="org.spring.projectjs.jdbc.BoardDTO">
+        update board set board_title = #{board_title}, board_content=#{board_content}
+    </update>
+    <!-- 파일 하나만 삭제 -->
+    <update id="deleteFileOne">
+        update board
+        <set>
+            <choose>
+                <when test="param2 == 1">
+                    ofile1 = '', sfile1 = ''
+                </when>
+                <when test="param2 == 2">
+                    ofile2 = '', sfile2 = ''
+                </when>
+                <when test="param2 == 3">
+                    ofile3 = '', sfile3 = ''
+                </when>
+            </choose>
+        </set>
+        where board_idx = #{param1}
+    </update>
+
+    <!-- 파일 전체 삭제 -->
+    <update id="boardDeleteFileAll">
+        update board set ofile1 = '', sfile1 = '', ofile2 = '', sfile2 = '',
+        ofile3 = '', sfile3 = '' where board_idx=#{param1}
+    </update>
+
+    <!-- 방문자수 증가 -->
+    <update id="board_visitcounter">
+        update board set board_visitcount = board_visitcount + 1 where board_idx = #{param1}
+    </update>
+
+    <!-- 좋아요 증가 -->
+    <update id="board_good_count">
+        update board set board_good = board_good + 1 where board_idx = #{param1}
+    </update>
+
+    <!-- 싫어요 증가 -->
+    <update id="board_worse_count">
+        update board set board_worse = board_worse + 1 where board_idx = #{param1}
+    </update>
+
+    <!-- 게시물 삭제 -->
+    <delete id="delete">
+        delete from board where board_idx=#{param1}
+    </delete>
+    
+    <!-- 댓글 등록 -->
+    <insert id="comment_insert">
+	  <selectKey keyProperty="commentIdx" resultType="long" order="BEFORE">
+	    SELECT SEQ_BOARD_COMMENT_NUM.NEXTVAL  FROM DUAL
+	  </selectKey>
+	  INSERT INTO BOARDCOMMENT
+	    (COMMENT_IDX, COMMENT_ID, COMMENT_DATE, COMMENT_CONTENT, WRITER)
+	  VALUES
+	    (#{commentIdx, jdbcType=NUMERIC},
+	     #{param1,     jdbcType=NUMERIC},   <!-- board_idx -->
+	     SYSDATE,
+	     #{param2,     jdbcType=VARCHAR},   <!-- content -->
+	     #{param3,     jdbcType=VARCHAR})   <!-- writer -->
+	</insert>
+    <!-- 댓글 가져오기 -->
+    <select id="comment_select" resultType="org.spring.projectjs.jdbc.CommentDTO">
+        select * from boardcomment where comment_id = #{param1} order by comment_idx asc
+    </select>
+
+    <!-- delete from board where board_idx=#{param1}
+        댓글 삭제
+    -->
+    <delete id="comment_delete">
+        delete from boardcomment where comment_idx=#{param1}
+    </delete>
+
+    <!-- 댓글 전체 삭제 -->
+    <delete id="comment_write_del">
+        delete from boardcomment where comment_id=#{param1}
+    </delete>
+    
+</mapper>

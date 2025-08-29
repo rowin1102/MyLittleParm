@@ -1,0 +1,248 @@
+/* ============= Design Tokens - Light Theme ============= */
+:root {
+  --bg: #f8fafc;              /* 페이지 배경(밝은 회색) */
+  --card: #ffffff;            /* 카드 배경 */
+  --card-fore: #1e293b;       /* 카드 전경색 */
+  --muted: #64748b;           /* 보조 텍스트 */
+  --line: #e2e8f0;            /* 경계선 */
+  --primary: #8FBC8F;         /* 포커스/주요 색 */
+  --accent: #6B8E23;          /* 버튼 호버 색상 */
+  --danger: #ef4444;          /* 에러 */
+  --success: #6B8E23;         /* 성공 */
+  --ring: rgba(143, 188, 143, .15);
+}
+
+/* ============= Reset ============= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ============= Page ============= */
+body {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  background:
+    radial-gradient(80rem 80rem at -20% -20%, rgba(143, 188, 143, 0.08) 0%, transparent 60%),
+    radial-gradient(90rem 90rem at 120% 20%, rgba(107, 142, 35, 0.08) 0%, transparent 60%),
+    var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  color: var(--card-fore);
+}
+
+/* ============= Login Container ============= */
+.login-container {
+  position: relative;
+  width: min(500px, 100%);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .08), 0 8px 32px rgba(0, 0, 0, .04);
+  animation: fadeUp .5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Header */
+h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin-bottom: 30px;
+  color: var(--card-fore);
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 68px;
+  height: 3px;
+  margin: 15px auto 0;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 999px;
+}
+
+/* ============= Form Styles ============= */
+.form-group { margin-bottom: 20px; position: relative; }
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  color: #334155;
+  background: #ffffff;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  transition: all .2s ease;
+}
+
+.form-input::placeholder { color: #9ca3af; }
+.form-input:hover { border-color: #a3a3a3; }
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 6px var(--ring);
+  transform: translateY(-1px);
+}
+
+/* Label */
+.form-label {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: #9ca3af;
+  font-size: 15px;
+  transition: all .2s ease;
+  pointer-events: none;
+  background: white;
+  padding: 0 4px;
+}
+
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+  transform: translateY(-28px) scale(0.85);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ============= Error Message ============= */
+.error-message {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  color: var(--danger);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.error-message::before { content: "⚠️"; font-size: 16px; }
+
+/* ============= Buttons ============= */
+.submit-btn {
+  width: 100%;
+  padding: 15px 18px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: white;
+  background: var(--primary);
+  box-shadow: 0 16px 36px rgba(143, 188, 143, .25);
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+}
+.submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 22px 48px rgba(143, 188, 143, .35);
+  background: var(--accent);
+}
+.submit-btn:active { transform: none; }
+
+/* ============= Welcome / Links ============= */
+.welcome-container { text-align: center; padding: 20px; }
+.welcome-message { font-size: 18px; color: var(--card-fore); margin-bottom: 20px; font-weight: 600; }
+.nav-links { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+.nav-link {
+  padding: 10px 20px; text-decoration: none; color: white; background: var(--primary);
+  border-radius: 8px; font-weight: 600; transition: all .2s ease;
+}
+.nav-link:hover { background: var(--accent); transform: translateY(-1px); color: white; }
+
+/* ============= Responsive ============= */
+@media (max-width: 600px) {
+  .login-container { padding: 30px 20px; }
+  h2 { font-size: 24px; }
+  .form-input { font-size: 14px; padding: 12px 14px; }
+  .submit-btn { font-size: 15px; padding: 14px 16px; }
+  .nav-links { flex-direction: column; gap: 10px; }
+}
+
+.signup-row { font-size: 14px; color: #6c757d; }
+.signup-row .signup-link { margin-left: 6px; font-weight: 600; text-decoration: none; color: #0d6efd; }
+.signup-row .signup-link:hover { text-decoration: underline; }
+
+/* 페이지 상단 중앙에 로고 고정 배치 */
+body { position: relative; }
+.brand-hero {
+  position: absolute; top: 48px; left: 50%; transform: translateX(-50%); z-index: 1;
+}
+.brand-logo { width: 200px; height: auto; display: block; cursor: pointer; filter: drop-shadow(0 6px 16px rgba(0,0,0,.15)); }
+
+/* 로그인 카드가 로고와 겹치지 않도록 위쪽 여백 */
+.login-container { margin-top: 140px; }
+@media (max-width: 600px){
+  .brand-logo { width: 120px; }
+  .login-container { margin-top: 120px; }
+}
+
+/* ===== 페이지 전용 보조 스타일 ===== */
+.step-title { font-size: 18px; font-weight: 700; color: #2f855a; margin: 16px 0 10px; }
+.form-sep { height: 1px; background: #e5e7eb; border: 0; margin: 18px 0; }
+.note { font-size: 13px; margin-top: 8px; }
+.note.success { color: #16a34a; }
+.note.error { color: #ef4444; }
+#btnDoReset[disabled] { opacity: .5; cursor: not-allowed; }
+
+/* ===== 이메일 도메인 한 줄 배치 (오버플로우 방지) ===== */
+.inline-domain-row{
+  display:flex;
+  align-items:center;
+  gap:8px;             /* 간격 축소로 공간 확보 */
+  flex-wrap:nowrap;    /* 줄바꿈 방지 */
+}
+.inline-domain-row .fg-inline{
+  position:relative;
+  flex:1 1 0;          /* 남은 공간 균등 사용 */
+  min-width:120px;
+}
+.inline-domain-row .at{
+  flex:0 0 auto;
+  color:#6b7280;
+  padding:0 4px;
+}
+.inline-domain-row .form-input{ width:100%; min-width:0; }  /* ✅ 줄어들 수 있게 */
+#rpEmailDomain{ flex:1 1 0; min-width:120px; }
+#rpDomainSelect.select-compact{
+  flex:0 1 130px;      /* ✅ 필요 시 130px까지 축소 */
+  min-width:110px;
+  max-width:150px;
+}
+/* 행 안에서는 불필요한 간격 제거 */
+.inline-domain-row .form-group{ margin:0; }
+
+/* ---- 추가: 로고/여백 변수 ---- */
+:root{
+  --hero-offset: 48px;   /* 로고 상단 여백(brand-hero의 top) */
+  --hero-size: 200px;    /* 로고 지름(가로폭) */
+  --hero-gap: 24px;      /* 로고와 카드 사이 간격 */
+}
+
+/* 로고 위치/크기를 변수로 연결 */
+.brand-hero{ position:absolute; top:var(--hero-offset); left:50%; transform:translateX(-50%); z-index:1; }
+.brand-logo{ width:var(--hero-size); height:auto; display:block; cursor:pointer; filter:drop-shadow(0 6px 16px rgba(0,0,0,.15)); }
+
+/* ✅ 겹침 방지: 이 페이지(card)만 로고 아래로 충분히 내리기 */
+.page-reset .login-container{
+  /* 기존 margin-top:140px; 대신 */
+  margin-top: calc(var(--hero-offset) + var(--hero-size) + var(--hero-gap));
+}
+
+/* 반응형일 때 변수만 줄이면 자동 계산됨 */
+@media (max-width:600px){
+  :root{
+    --hero-offset: 24px;
+    --hero-size: 120px;
+    --hero-gap: 16px;
+  }
+}

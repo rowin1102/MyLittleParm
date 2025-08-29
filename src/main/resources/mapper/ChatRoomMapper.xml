@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.spring.projectjs.chatting.mapper.ChatRoomMapper">
+
+    <!-- 필요하면 다른 resultMap은 그대로 두고, 여기선 심플 쿼리만 -->
+    <select id="findMemberIdxByUserId" parameterType="string" resultType="long">
+        SELECT MEMBER_IDX
+        FROM MEMBER
+        WHERE USER_ID = #{userId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="findUserIdByMemberIdx" parameterType="long" resultType="string">
+        SELECT USER_ID
+        FROM MEMBER
+        WHERE MEMBER_IDX = #{memberIdx}
+    </select>
+    
+    <insert id="insert" parameterType="org.spring.projectjs.chatting.domain.ChatRoom">
+		  <selectKey keyProperty="roomId" order="BEFORE" resultType="long">
+		    SELECT CHAT_ROOM_SEQ.NEXTVAL FROM dual
+		  </selectKey>
+		  INSERT INTO CHAT_ROOM (CHAT_ROOM_IDX, CHAT_ROOM_NAME, MEMBER_IDX_ROOM)
+		  VALUES (#{roomId}, #{roomName}, #{ownerMemberId})
+		</insert>
+
+    <select id="findById" parameterType="long" resultType="org.spring.projectjs.chatting.domain.ChatRoom">
+        SELECT CHAT_ROOM_IDX as roomId,
+               CHAT_ROOM_NAME as roomName,
+               MEMBER_IDX_ROOM as ownerMemberId
+        FROM CHAT_ROOM
+        WHERE CHAT_ROOM_IDX = #{roomId}
+    </select>
+
+    <select id="findByName" parameterType="string" resultType="org.spring.projectjs.chatting.domain.ChatRoom">
+        SELECT CHAT_ROOM_IDX as roomId,
+               CHAT_ROOM_NAME as roomName,
+               MEMBER_IDX_ROOM as ownerMemberId
+        FROM CHAT_ROOM
+        WHERE CHAT_ROOM_NAME = #{roomName}
+    </select>
+    
+    <select id="findRoomsByLoginId"
+        parameterType="string"
+        resultType="org.spring.projectjs.chatting.domain.ChatRoom">
+		  SELECT
+		    CHAT_ROOM_IDX   AS roomId,
+		    CHAT_ROOM_NAME  AS roomName,
+		    MEMBER_IDX_ROOM AS ownerMemberId
+		  FROM CHAT_ROOM
+		  WHERE CHAT_ROOM_NAME LIKE '%' || #{loginId} || '%'
+		  ORDER BY CHAT_ROOM_IDX DESC
+		</select>
+		
+		<select id="existsRoom" resultType="int">
+        SELECT COUNT(1)
+					FROM CHAT_ROOM
+					WHERE CHAT_ROOM_IDX = #{roomId}
+    </select>
+
+    <delete id="deleteMessagesByRoomId">
+        DELETE FROM chat_message WHERE CHAT_ROOM_IDX = #{roomId}
+    </delete>
+
+    <delete id="deleteRoomById">
+        DELETE FROM chat_room WHERE CHAT_ROOM_IDX = #{roomId}
+    </delete>
+
+</mapper>

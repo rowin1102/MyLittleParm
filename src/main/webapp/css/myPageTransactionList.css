@@ -1,0 +1,144 @@
+/* ====== 거래글 그리드 ====== */
+.tx-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap:16px;
+  align-items: stretch;
+}
+
+/* 카드 */
+.tx-card{
+  background:#fff;
+  border:1px solid #e9ecef;
+  border-radius:12px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.tx-card:hover{
+  transform: translateY(-2px);
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  border-color:#dfe4ea;
+}
+
+/* 썸네일: 정사각형, 꽉 채우기 */
+.tx-thumb{
+  display:block;
+  width:100%;
+  aspect-ratio: 1 / 1; /* 지원 안 되는 구형 브라우저는 height 강제 해도 됨 */
+  background:#f6f7f9;
+  position:relative;
+}
+.tx-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.thumb-placeholder{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:#98a2b3;
+}
+
+/* 본문 */
+.tx-body{
+  padding:10px 12px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+/* 상태 배지 */
+.tx-status{ display:flex; gap:6px; align-items:center; }
+.status{
+  display:inline-block;
+  padding:2px 6px;
+  font-size:11px;
+  border-radius:999px;
+  line-height:1.2;
+  border:1px solid transparent;
+}
+.status.sale{ color:#0f5132; background:#d1e7dd; border-color:#badbcc; }   /* 판매중 */
+.status.sold{ color:#842029; background:#f8d7da; border-color:#f5c2c7; }   /* 판매완료 */
+.status.unknown{ color:#5c6b7a; background:#eef2f6; border-color:#e3e8ef; }
+
+/* 번호 + 제목 */
+.tx-meta{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.tx-no{
+  font-size:11px;
+  color:#94a3b8;
+  white-space:nowrap;
+}
+.tx-title{
+  flex:1;
+  font-size:14px;
+  font-weight:600;
+  line-height:1.35;
+  color:#111827;
+  text-decoration:none;
+  display:-webkit-box;
+  -webkit-line-clamp:2;       /* 2줄 말줄임 */
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.tx-title:hover{ text-decoration:underline; }
+
+/* 가격/서브텍스트 */
+.tx-price{
+  font-weight:700;
+  font-size:14px;
+  letter-spacing:.2px;
+}
+.tx-sub{
+  font-size:12px;
+  color:#6b7280;
+}
+
+/* 검색 바/버튼 정리 (선택) */
+.search-bar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+.search-bar select,
+.search-bar input[type="text"]{
+  height:36px;
+  padding:0 10px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+}
+.search-bar .btn{
+  height:36px;
+  padding:0 12px;
+  border-radius:8px;
+}
+
+/* 표준 버튼 (main.css와 톤 맞춤) */
+.btn{ border:1px solid #d1d5db; background:#fff; cursor:pointer; }
+.btn-primary{
+  background:#22c55e; border-color:#16a34a; color:#fff;
+}
+.btn:hover{ filter:brightness(.98); }
+
+/* 페이지네이션 중앙 */
+.pagination{ margin-top:14px; text-align:center; }
+
+/* 반응형 */
+@media (max-width: 1024px){
+  .tx-grid{ grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+@media (max-width: 640px){
+  .tx-grid{ grid-template-columns: repeat(2, 1fr); }
+}

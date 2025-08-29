@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.spring.projectjs.jdbc.IRegistService">
+
+  <insert id="insert">
+    INSERT INTO member
+      (MEMBER_IDX, USER_ID, PASSWORD,
+       EMAIL, DOMAIN, PHONE, NICKNAME, MEMBER_AUTH,
+       ADDRESS, DETAILADDRESS, POSTCODE, EMAIL_VERIFIED)
+    VALUES
+      (seq_member_num.nextval, #{user_id},
+       #{password},
+       #{email}, #{domain}, #{phone}, #{nickname},
+       'ROLE_USER',
+       #{address}, #{detailaddress}, #{postcode}, #{email_verified})
+  </insert>
+
+  <select id="selectIdAndPassword"
+          resultType="org.spring.projectjs.jdbc.MemberDTO">
+    SELECT * FROM member
+    WHERE user_id = #{userId}
+      AND password = #{password}
+  </select>
+
+  <select id="checkDuplicateId" parameterType="string" resultType="int">
+    SELECT COUNT(*) FROM member WHERE user_id = #{userId}
+  </select>
+
+  <select id="checkDuplicateNickname" parameterType="string" resultType="int">
+    SELECT COUNT(*) FROM member WHERE nickname = #{nickname}
+  </select>
+
+  <!-- 같은 이메일로 재요청 시 갱신 -->
+  <update id="upsertEmailVerifyTemp">
+    MERGE INTO EMAIL_VERIFY_TEMP t
+    USING (SELECT #{email} AS EMAIL FROM dual) s
+      ON (t.EMAIL = s.EMAIL)
+    WHEN MATCHED THEN
+      UPDATE SET
+        t.TOKEN = #{token},
+        t.EXPIRES_AT = SYSTIMESTAMP + INTERVAL '1' DAY,
+        t.VERIFIED = 'N',
+        t.VERIFIED_AT = NULL
+    WHEN NOT MATCHED THEN
+      INSERT (EMAIL, TOKEN, EXPIRES_AT, VERIFIED)
+      VALUES (#{email}, #{token}, SYSTIMESTAMP + INTERVAL '1' DAY, 'N')
+  </update>
+
+  <select id="findTempByToken"
+          resultType="org.spring.projectjs.jdbc.EmailVerifyTempDTO">
+    SELECT EMAIL, TOKEN, EXPIRES_AT, VERIFIED, VERIFIED_AT
+    FROM EMAIL_VERIFY_TEMP
+    WHERE TOKEN = #{token}
+      AND VERIFIED = 'N'
+      AND EXPIRES_AT > SYSTIMESTAMP
+  </select>
+
+  <update id="markTempVerified">
+    UPDATE EMAIL_VERIFY_TEMP
+      SET VERIFIED = 'Y',
+          VERIFIED_AT = SYSTIMESTAMP
+    WHERE EMAIL = #{email}
+  </update>
+
+  <select id="findTempVerifiedFlag" resultType="string">
+    SELECT VERIFIED
+    FROM EMAIL_VERIFY_TEMP
+    WHERE EMAIL = #{email}
+  </select>
+
+  <delete id="deleteTemp">
+    DELETE FROM EMAIL_VERIFY_TEMP WHERE EMAIL = #{email}
+  </delete>
+
+  <!-- 아이디 찾기: 분리 컬럼 정확 매칭 -->
+  <select id="findUserIdsByLocalAndDomain" resultType="string">
+    SELECT user_id
+    FROM member
+    WHERE LOWER(TRIM(email))  = LOWER(TRIM(#{local}))
+      AND LOWER(TRIM(domain)) = LOWER(TRIM(#{domain}))
+  </select>
+
+  <!-- userId + (email, domain) 매칭 -->
+  <select id="existsByUserIdAndDomain" resultType="boolean">
+    SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+    FROM member
+    WHERE user_id = #{userId}
+      AND LOWER(TRIM(email))  = LOWER(TRIM(#{local}))
+      AND LOWER(TRIM(domain)) = LOWER(TRIM(#{domain}))
+  </select>
+
+  <!-- 비밀번호 변경 -->
+  <update id="updatePassword">
+    UPDATE member
+       SET password = #{encodedPw}
+     WHERE user_id  = #{userId}
+  </update>
+
+</mapper>

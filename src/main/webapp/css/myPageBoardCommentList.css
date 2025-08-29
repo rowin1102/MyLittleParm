@@ -1,0 +1,87 @@
+/* myPageBoardCommentList.css */
+/* 댓글 목록 전용 스타일 (기존 톤 유지 + 표 가독성 강화) */
+
+/* 검색 바 간격/정렬 */
+.board-content .search-bar {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: .5rem 0 1rem;
+}
+
+/* 표 베이스 */
+.board-content .cmt-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+}
+
+/* 헤더 */
+.board-content .cmt-table thead th {
+  background: #f7faf8;
+  color: #222;
+  font-weight: 700;
+  letter-spacing: .2px;
+  padding: .9rem .8rem;
+  border-bottom: 1px solid #e9ecef;
+  text-align: center;
+}
+
+/* 셀 */
+.board-content .cmt-table td {
+  padding: .85rem .8rem;
+  border-bottom: 1px solid #f1f3f5;
+  color: #2a2a2a;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* 왼쪽 정렬 유틸 */
+.board-content .text-left { text-align: left; }
+
+/* 링크(댓글내용) */
+.board-content .cmt-table td a {
+  color: #1e7e34;
+  text-decoration: none;
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.board-content .cmt-table td a:hover { text-decoration: underline; }
+
+/* 행 호버 */
+.board-content .cmt-table tbody tr:hover {
+  background: #fbfffb;
+}
+
+/* 비어있음 표시 */
+.board-content .empty {
+  text-align: center;
+  color: #868e96;
+  padding: 2.2rem 1rem;
+}
+
+/* 페이지네이션 간격 */
+.board-content .pagination {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* 모바일 대응 */
+@media (max-width: 720px) {
+  .board-content .search-bar { flex-wrap: wrap; }
+  .board-content .cmt-table thead { display: none; }
+  .board-content .cmt-table, 
+  .board-content .cmt-table tbody, 
+  .board-content .cmt-table tr, 
+  .board-content .cmt-table td { display: block; width: 100%; }
+  .board-content .cmt-table tr { border-bottom: 1px solid #f1f3f5; }
+  .board-content .cmt-table td { text-align: left; padding: .7rem .9rem; }
+}

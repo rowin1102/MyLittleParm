@@ -1,0 +1,297 @@
+/* =========================
+   MyPage (myPage.jsp) Styles
+   File: /css/mypage.css
+   ========================= */
+
+/* 색/간격 변수 */
+:root {
+  --bg: #f7faf9;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --brand: #22c55e;
+  --brand-dark: #16a34a;
+  --accent: #facc15;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0,0,0,.06);
+  --space: 1rem;
+
+  /* ✅ 라벨(dt) 폭 */
+  --label-w: 120px; /* (기존 160px → 120px로 축소) */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* 섹션 여백 */
+.section {
+  padding: 7rem 1.25rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 레이아웃 */
+.account-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* 사이드바 카드 */
+.board-sidebar .sidebar-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  position: sticky;
+  top: 88px;
+}
+
+.sidebar-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--brand);
+  margin-bottom: .75rem;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li a {
+  display: block;
+  padding: .7rem .8rem;
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: .2s ease;
+}
+
+.sidebar-menu li a:hover {
+  background: #f0fff4;
+  border-color: #bbf7d0;
+}
+
+.sidebar-menu li.active > a {
+  background: #e8fff0;
+  color: var(--brand-dark);
+  font-weight: 700;
+  border-color: #c7f9d4;
+}
+
+/* 메인 카드 */
+.profile-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.25rem;
+}
+
+/* 헤더 */
+.profile-header {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: .75rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f0fff4;
+  border: 1px solid #d1fae5;
+  font-size: 1.6rem;
+}
+
+.profile-name {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .25rem .55rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.sub {
+  margin: .25rem 0 0;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* 상세 정보 리스트 */
+.detail-list {
+  display: grid;
+  grid-template-columns: var(--label-w) 1fr; /* ✅ dt 폭 축소 반영 */
+  column-gap: .75rem;                       /* ✅ 간격도 소폭 축소 */
+  row-gap: .65rem;
+  margin: .5rem 0 1.1rem;
+}
+
+.detail-list dt {
+  color: #065f46;
+  font-weight: 700;
+  align-self: center;
+}
+
+.detail-list dd {
+  margin: 0;
+  color: #111827;
+  background: #f9fafb;
+  border: 1px dashed #e5e7eb;
+  border-radius: 10px;
+  padding: .55rem .7rem;
+}
+
+/* 액션 버튼 영역 */
+.actions {
+  display: flex;
+  gap: .6rem;
+  justify-content: flex-end;
+  margin-top: .6rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  padding: .6rem 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.06);
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+.btn-primary:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+}
+
+/* ✅ 관리자 버튼 색상 */
+.btn-admin {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #111827;
+}
+.btn-admin:hover {
+  filter: brightness(0.95);
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .account-layout {
+    grid-template-columns: 220px 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+  .board-sidebar .sidebar-card {
+    position: static;
+  }
+}
+
+/* 작은 화면에서 dt를 더 좁게 */
+@media (max-width: 640px) {
+  :root {
+    --label-w: 100px; /* ✅ 모바일에서 더 컴팩트 */
+  }
+}
+
+/* 다크 모드 */
+body.dark-mode {
+  --bg: #0f172a;
+  --card: #0b1220;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --line: #1f2937;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+body.dark-mode .sidebar-menu li a {
+  color: var(--text);
+}
+
+body.dark-mode .sidebar-menu li a:hover {
+  background: #0b1f16;
+  border-color: #164e3d;
+}
+
+body.dark-mode .sidebar-menu li.active > a {
+  background: #0d251a;
+  color: #9ef4be;
+  border-color: #1e684f;
+}
+
+body.dark-mode .avatar {
+  background: #07140e;
+  border-color: #0f2c24;
+  color: #86efac;
+}
+
+body.dark-mode .role-badge {
+  background: #3a2a00;
+  border-color: #4a3702;
+  color: #fcd34d;
+}
+
+body.dark-mode .detail-list dd {
+  background: #0c1323;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark-mode .btn {
+  background: #0c1424;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark-mode .btn-primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #04160d;
+}
+
+body.dark-mode .btn-admin {
+  color: #111827;
+}

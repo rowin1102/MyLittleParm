@@ -1,0 +1,165 @@
+/* ===== Board List (드롭인 스킨) ===== */
+
+/* 카드 컨테이너 */
+.board-content {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(25, 35, 45, 0.06);
+  padding: 24px 24px 16px;
+}
+
+/* 제목 */
+.board-title,
+h2 { /* 페이지마다 다를 수 있어 둘 다 잡아줌 */
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 18px;
+  letter-spacing: -0.2px;
+}
+
+/* 검색바 */
+.search-bar,
+.board-content form[action*="BoardList"],
+.board-content form[action*="myPageBoardList"] {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 6px 0 18px;
+}
+
+.search-bar select,
+.search-bar input[type="text"],
+.board-content select,
+.board-content input[type="text"] {
+  height: 38px;
+  border: 1px solid #e6e9ee;
+  border-radius: 10px;
+  padding: 0 12px;
+  outline: none;
+  transition: box-shadow .2s, border-color .2s;
+}
+
+.search-bar input[type="text"],
+.board-content input[type="text"] { width: 320px; }
+
+.search-bar select:focus,
+.search-bar input[type="text"]:focus,
+.board-content select:focus,
+.board-content input[type="text"]:focus {
+  border-color: #b7d7c2;
+  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.15);
+}
+
+/* 버튼 */
+.btn, input[type="submit"] {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid #e6e9ee;
+  background: #fff;
+  cursor: pointer;
+  transition: transform .02s ease-in, box-shadow .2s;
+}
+
+.btn:hover, input[type="submit"]:hover {
+  box-shadow: 0 8px 16px rgba(25, 35, 45, 0.08);
+}
+
+.btn-primary,
+input[type="submit"][value*="검색"] {
+  background: linear-gradient(180deg, #2ecc71, #27ae60);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+}
+.btn-primary:active,
+input[type="submit"][value*="검색"]:active { transform: translateY(1px); }
+
+/* 테이블 */
+.table, table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.table thead th,
+table thead th {
+  background: #f7f9fb;
+  color: #6b7280;
+  font-weight: 700;
+  font-size: 13px;
+  border-bottom: 1px solid #eef1f5;
+  padding: 13px 10px;
+  text-align: center;
+}
+
+.table tbody td,
+table tbody td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f1f3f6;
+  color: #333;
+  text-align: center;
+  vertical-align: middle;
+  background: #fff;
+}
+
+.table tbody tr:hover,
+table tbody tr:hover {
+  background: #fbfefc;
+  box-shadow: inset 0 0 0 9999px rgba(46, 204, 113, 0.03);
+}
+
+/* 제목 셀 왼쪽 정렬 + 링크 스타일 */
+.table td[align="left"],
+table td[align="left"] { text-align: left; }
+
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* 이미지 셀(썸네일 자리) */
+.table td:nth-child(2),
+table td:nth-child(2) {
+  width: 88px;
+  color: #9aa1ab;
+}
+.table td:nth-child(2) img {
+  width: 64px; height: 64px; object-fit: cover;
+  border-radius: 10px; border: 1px solid #eef1f5;
+  background: #fafbfc;
+}
+
+/* 페이지네이션 */
+.pagination,
+table + table td[colspan],
+.board-content .pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 4px 6px;
+}
+
+.pagination a, .pagination span,
+table + table td[colspan] a, table + table td[colspan] span {
+  min-width: 34px; height: 34px; display: inline-flex;
+  align-items: center; justify-content: center;
+  border-radius: 10px; border: 1px solid #e6e9ee;
+  background: #fff; font-size: 14px; color: #4b5563;
+}
+
+.pagination .current, table + table td[colspan] .current {
+  background: #fffbff;
+  border-color: #ffd9ec;
+  color: #e11d48;
+  box-shadow: 0 6px 14px rgba(225, 29, 72, .08);
+}
+
+/* 반응형 */
+@media (max-width: 960px) {
+  .search-bar input[type="text"], .board-content input[type="text"] { width: 100%; }
+  .board-content { padding: 18px 16px; }
+  .table thead th, table thead th { font-size: 12px; padding: 11px 8px; }
+  .table tbody td, table tbody td { padding: 12px 8px; font-size: 14px; }
+}

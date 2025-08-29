@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.spring.projectjs.jdbc.IBoardNotice">
+
+    <!-- 댓글 등록 (named parameter 사용) -->
+    <insert id="notice_comment_insert">
+        INSERT INTO boardcomment (comment_idx, comment_id, comment_content, writer)
+        VALUES (SEQ_BOARD_COMMENT_NUM.NEXTVAL, #{board_idx}, #{comment_content}, #{writer})
+    </insert>
+
+    <!-- 댓글 가져오기 -->
+    <select id="notice_comment_select" resultType="org.spring.projectjs.jdbc.CommentDTO">
+        SELECT * FROM boardcomment WHERE comment_id = #{param1} ORDER BY comment_idx ASC
+    </select>
+
+    <!-- 댓글 삭제 -->
+    <delete id="notice_comment_delete">
+        DELETE FROM boardcomment WHERE comment_idx = #{param1}
+    </delete>
+
+    <!-- 댓글 전체 삭제 -->
+    <delete id="notice_comment_write_del">
+        DELETE FROM boardcomment WHERE comment_id = #{param1}
+    </delete>
+
+    <!-- 방문자수 증가 -->
+    <update id="notice_board_visitcounter">
+        UPDATE board SET board_visitcount = board_visitcount + 1 WHERE board_idx = #{param1}
+    </update>
+
+    <!-- 좋아요 증가 -->
+    <update id="notice_board_good_count">
+        UPDATE board SET board_good = board_good + 1 WHERE board_idx = #{param1}
+    </update>
+
+    <!-- 싫어요 증가 -->
+    <update id="notice_board_worse_count">
+        UPDATE board SET board_worse = board_worse + 1 WHERE board_idx = #{param1}
+    </update>
+
+    <!-- 게시물의 총 갯수 -->
+    <select id="notice_totalCount" parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="int">
+        SELECT COUNT(*) FROM board WHERE board_id = 2
+        <if test="searchKeyword != null and !searchKeyword.equals('')">
+            AND ${searchField} LIKE '%'||#{searchKeyword}||'%'
+        </if>
+    </select>
+
+    <!-- 목록 페이징 -->
+    <select id="notice_listPage" parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="org.spring.projectjs.jdbc.BoardNoticeDTO">
+        SELECT * FROM (
+            SELECT Tb.*, ROWNUM rNum FROM (
+                SELECT * FROM board WHERE board_id = 2
+                <if test="searchKeyword != null and !searchKeyword.equals('')">
+                    AND ${searchField} LIKE '%'||#{searchKeyword}||'%'
+                </if>
+                ORDER BY board_idx DESC
+            ) Tb
+        )
+        WHERE rNum <![CDATA[>=]]> #{start}
+          AND rNum <![CDATA[<=]]> #{end}
+    </select>
+
+    <!-- 상세보기 -->
+    <select id="notice_view" parameterType="org.spring.projectjs.jdbc.BoardNoticeDTO"
+            resultType="org.spring.projectjs.jdbc.BoardNoticeDTO">
+        SELECT * FROM board WHERE board_idx = #{board_idx} AND board_id = 2
+    </select>
+
+</mapper>

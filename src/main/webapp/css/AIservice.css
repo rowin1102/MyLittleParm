@@ -1,0 +1,416 @@
+
+
+.btn-grid{
+   display:grid;
+   grid-template-columns: repeat(2, minmax(0, 1fr));
+   gap: 20px 24px;
+   margin-bottom: 20px;
+ }
+ .pill-btn{
+   width: 100%;
+   min-height: 72px;
+   padding: 14px 18px;
+   border-radius: 18px;
+   font-size: 1.125rem;
+   font-weight: 800;
+   display:flex; align-items:center; justify-content:center;
+ }
+
+ /* ==== 라벨 카드 3개: 각 카드 안에 (실내/실외/온실) 라디오 3개 ==== */
+.label-grid{
+  display: grid;
+  grid-template-columns: 1fr;   /* 기본 1열 */
+  gap: 16px;
+  margin-bottom: 16px;
+}
+/* 큰 화면에서는 3개가 1행으로 */
+@media (min-width: 900px){
+  .label-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+.label-card{
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+.label-card__title{
+  font-weight: 900;
+  margin: 0 0 10px;
+  color: #1f2937;
+  font-size: 1.05rem;
+}
+.env-radio-group{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.env-radio-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fafafa;
+  cursor: pointer;
+  user-select: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.env-radio-chip input[type="radio"]{ accent-color: var(--brand); }
+.env-radio-chip:has(input[type="radio"]:checked){
+  border-color: rgba(34,197,94,0.55);
+  background: #fff;
+  color: var(--brand-strong);
+}
+
+/* 검색바: 카드 폭에 맞게 */
+.search-row{
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 12px;
+}
+.search-input{ height: 48px; border-radius: 12px; padding: 0 16px; }
+.search-btn{ height: 48px; border-radius: 12px; font-weight: 800; }
+.env-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.badge{display:inline-block;padding:.25rem .6rem;border-radius:9999px;
+       background:#f0fdf4;border:1px solid rgba(34,197,94,.25);font-weight:700;color:#065f46}
+.env-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.env-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:16px}
+.env-card h4{margin:0 0 .5rem 0}
+.env-table{width:100%;border-collapse:collapse;margin-top:8px}
+.env-table th,.env-table td{padding:12px 14px;border-bottom:1px solid #eef2f7}
+.env-table th{background:#f3f8f5;text-align:center}
+.env-table td:nth-child(1){width:30%;font-weight:700}
+.hint{font-size:.95rem;color:#374151;margin-top:.5rem}
+.aside{margin-top:14px;color:#6b7280}
+.back-wrap{margin-top:20px;text-align:center}
+.btn{display:inline-block;background:#22c55e;color:#fff;padding:.6rem 1rem;border-radius:10px;text-decoration:none;font-weight:800}
+.btn:focus,.btn:hover{box-shadow:0 8px 16px rgba(34,197,94,.25)}
+@media(max-width:900px){.env-grid{grid-template-columns:1fr}}
+@media (max-width: 640px){
+  .btn-grid{ grid-template-columns: 1fr; }
+  .search-row{ grid-template-columns: 1fr; }
+  .search-btn{ width: 100%; }
+}
+
+/* 화면리더용 숨김 */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+.search-btn-wrap {
+display: flex;
+justify-content: center;
+margin-top: 16px;
+}
+.search-btn-wrap .search-btn {
+  background: #fff;                  /* 진한 초록 */
+  color: #15803d;
+  font-weight: 900;
+  border: none;
+  box-shadow: 0 4px 10px rgba(21,128,61,0.3);
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-weight: 800;
+  background: var(--brand);
+  border: none;
+  cursor: pointer;
+  transition: filter .15s ease, transform .05s ease;
+}
+.search-btn-wrap .search-btn:hover {
+  filter: brightness(.95);
+  background: #166534;
+  color: #fff;               /* hover 시 더 어둡게 */
+  filter: none;
+}
+.search-btn-wrap .search-btn:active {
+  transform: translateY(1px);
+  background: #14532d;                  /* 클릭 시 최진한 */
+}
+.plant-search .search-label {
+  display: block;
+  font-size: 1.25rem;         /* 20px 정도 */
+  color: #14532d;             /* 진한 초록 */
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;      /* 살짝 자간 */
+}
+
+.pest-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upload-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #14532d;
+}
+
+.upload-box {
+  width: 100%;
+  min-height: 400px; /* 카드의 대부분 차지 */
+  border: 2px dashed #22c55e;
+  border-radius: 16px;
+  background: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.upload-box:hover {
+  background: #dcfce7;
+  border-color: #15803d;
+}
+
+.upload-instruction {
+  font-size: 1.1rem;
+  color: #16a34a;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  position: absolute;
+}
+
+.upload-btn-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.upload-btn {
+  padding: 12px 28px;
+  background: #15803d;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.upload-btn:hover {
+  background: #166534;
+}
+/* === 결과 영역 여백 === */
+.board-card .result-wrap {}
+
+/* === 결과 테이블 꾸미기 & 정렬 === */
+.board-card .board-table {
+  width: 100%;
+  table-layout: fixed;        /* colgroup 폭 적용 */
+  border-collapse: separate;  /* 둥근 모서리 표현 */
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;           /* 둥근 테두리 바깥 가림 */
+  box-shadow: 0 6px 20px rgba(0,0,0,.05);
+}
+
+.board-card .board-table thead th {
+  background: #f6faf7;
+  color: #374151;
+  font-weight: 800;
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid #e6efe9;
+}
+
+.board-card .board-table tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: middle;
+  line-height: 1.35;
+}
+
+.board-card .board-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.board-card .board-table tbody tr:hover {
+  background: #f9fefb;
+}
+
+/* 컬럼 정렬 */
+.board-card .board-table .td-name   { text-align: left;  font-weight: 600; color:#111827; }
+.board-card .board-table .td-series { text-align: center; }
+.board-card .board-table .td-num    {
+  text-align: right;
+  white-space: nowrap;              /* 줄바꿈 방지 */
+  font-variant-numeric: tabular-nums; /* 숫자 자간 고정 → 줄 맞춤 */
+}
+
+/* 다크모드 대응 */
+body.dark-mode .board-card .board-table { background:#1f2937; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+body.dark-mode .board-card .board-table thead th { background:#111827; color:#e5e7eb; border-bottom-color:#2a2f3a; }
+body.dark-mode .board-card .board-table tbody td { color:#e5e7eb; border-bottom-color:#2a2f3a; }
+body.dark-mode .board-card .board-table tbody tr:hover { background:#111827; }
+/* 한 칸 카드 */
+.label-one { margin-top: 12px; }
+.label-card--one { padding-top: 14px; }
+
+/* 가로 한 줄 배치 */
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;           /* 화면 좁아지면 자연스럽게 줄바꿈 */
+}
+
+/* 구분선 */
+.sep {
+  width: 1px;
+  height: 28px;
+  background: #e5e7eb;
+}
+
+/* 각 블록 */
+.range-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.range-label {
+  font-weight: 700;
+  color: #374151;
+  white-space: nowrap;
+}
+
+/* 입력칸 더 작게(높이 34, 너비 100) */
+.env-range-inputs.small { display: flex; align-items: center; gap: 8px; }
+.env-range-inputs.small .input-wrap { position: relative; }
+.env-range-inputs.small .input-wrap input {
+  width: 100px;               /* ← 줄여줌 */
+  height: 34px;               /* ← 줄여줌 */
+  padding: 0 30px 0 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  transition: border-color .2s, box-shadow .2s;
+  font-variant-numeric: tabular-nums;
+}
+.env-range-inputs.small .input-wrap input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.15);
+}
+.env-range-inputs.small .unit {
+  position: absolute;
+  right: 8px; top: 50%; transform: translateY(-50%);
+  color: #6b7280; font-size: .85rem; pointer-events: none;
+}
+.tilde { color: #9ca3af; font-weight: 700; user-select: none; }
+
+/* 다크모드 */
+body.dark-mode .sep { background:#2a2a2a; }
+body.dark-mode .env-range-inputs.small .input-wrap input {
+  background:#111827; border-color:#2a2a2a; color:#e5e7eb;
+}
+body.dark-mode .env-range-inputs.small .input-wrap input:focus {
+  border-color:#22c55e; box-shadow:0 0 0 3px rgba(34,197,94,.2);
+}
+body.dark-mode .range-label { color:#e5e7eb; }
+body.dark-mode .env-range-inputs.small .unit { color:#9ca3af; }
+
+/* 반응형: 작은 화면에선 블록 간 간격만 조금 줄이기 */
+@media (max-width: 640px) {
+  .range-row { gap: 12px; }
+  .env-range-inputs.small .input-wrap input { width: 88px; }
+}
+/* 업로드 박스: 넓이는 컨테이너 100%, 높이는 데스크탑 기준 320px */
+/* 업로드 박스: 고정/반응형 높이 + 가운데 정렬 */
+.upload-box{
+  width: 100%;
+  height: clamp(260px, 48vh, 420px);   /* 박스 높이: 화면 비율에 맞게 */
+  border: 3px dashed #198754;
+  border-radius: 16px;
+  background: #eaffea;
+  display: grid;                       /* 가운데 정렬을 grid로 간단히 */
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 드래그 오버 효과(선택) */
+.upload-box.dragover{
+  background: #d6f8d6;
+  box-shadow: 0 0 0 4px rgba(25,135,84,.15) inset;
+}
+
+/* 안내문 */
+.upload-instruction{ color:#198754; text-align:center; padding:0 16px; }
+
+/* 미리보기: 박스의 짧은 변을 기준으로 100% 채움 + 비율 유지(잘리지 않음) */
+.preview-img{
+  display: none;                       /* 기본은 숨김 */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;                 /* 비율 유지 + 박스 안에 딱 맞게 */
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+/* 이미지가 올라오면 안내문 숨기고 미리보기 표시 */
+.upload-box.has-image .upload-instruction{ display:none; }
+.upload-box.has-image .preview-img{ display:block !important; }
+
+/* 모바일에서 높이 살짝 낮춤 */
+@media (max-width: 768px){
+  .upload-box{ height: 260px; }
+}
+/* 결과 카드 하단 액션 영역 */
+.result-actions{
+  margin-top:16px;
+  padding-top:12px;
+  border-top:1px dashed #e5e7eb;
+  display:flex;
+  justify-content:flex-start; /* 가운데 정렬 원하면 center */
+}
+
+/* 둥근 아웃라인 그린 버튼 (네 디자인 토큰 사용, 없으면 #22c55e) */
+.btn.btn-outline-green{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 18px;
+  border-radius:9999px;
+  border:2px solid var(--brand, #22c55e);
+  background:#fff;
+  color: var(--brand-strong, #16a34a);
+  font-weight:800;
+  text-decoration:none;
+  transition:transform .08s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn.btn-outline-green .ico{ display:block; }
+
+.btn.btn-outline-green:hover{
+  background: var(--brand, #22c55e);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(34,197,94,.22);
+  transform:translateY(-1px);
+}
+.btn.btn-outline-green:active{
+  transform:translateY(0);
+  box-shadow:0 4px 12px rgba(34,197,94,.18);
+}
+
+/* 다크모드 */
+body.dark-mode .btn.btn-outline-green{
+  background:#0c140f;
+  color:#bbf7d0;
+  border-color:#34d399;
+}
+body.dark-mode .btn.btn-outline-green:hover{
+  background:#22c55e; color:#0b1410;
+}
+

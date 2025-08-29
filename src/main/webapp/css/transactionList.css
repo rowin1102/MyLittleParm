@@ -1,0 +1,187 @@
+/* ===============================
+   거래게시판 전용 스타일 (최종본)
+   =============================== */
+
+/* 밝은 모드 배경 (공지/자유게시판과 동일) */
+body {
+  background: linear-gradient(135deg, #f9fce7, #e1f7c9);
+}
+
+/* 전체 레이아웃 */
+.transaction-board-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 사이드바 */
+.transaction-board-sidebar {
+  background: #ffffff;                 /* 공통과 동일 */
+  border-radius: 16px;                 /* 공통 radius */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  padding: 18px;
+  border: 1px solid rgba(34,197,94,0.08);  /* 공통 테두리 */
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.transaction-board-sidebar h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #22c55e; /* 공통 사이드바 제목 색상 */
+  margin-bottom: 12px;
+}
+
+
+/* 메인 컨텐츠 */
+.transaction-board-content {
+  flex: 1;
+}
+
+/* 검색 영역 */
+.board-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;   /* 요소 간격 */
+  margin-bottom: 1rem;
+}
+
+.search-select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.search-input {
+  flex: 1;   /* 남은 공간 다 차지 */
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-green {
+  background: #22c55e;
+  color: #fff;
+}
+
+.btn-blue {
+  background: #2563eb;
+  color: #fff;
+}
+
+
+/* 카드 그리드 */
+.transaction-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* 카드 */
+.transaction-card {
+  background: var(--card-bg, #fff);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.08); /* 🔹 테두리 톤 통일 */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.transaction-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+
+/* 카드 이미지 */
+.transaction-card-image img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.transaction-no-image {
+  width: 100%;
+  height: 160px;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* 카드 본문 */
+.transaction-card-body {
+  padding: 1rem;
+}
+.transaction-status {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+.transaction-card-title {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.transaction-card-title a {
+  color: var(--link-color, #111827);
+  text-decoration: none;
+}
+.transaction-card-title a:hover {
+  color: #22c55e;
+}
+.transaction-card-price {
+  color: #22c55e;
+  font-weight: 700;
+}
+.transaction-card-date {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+/* 페이지네이션 */
+.transaction-pagination {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+/* ===============================
+   다크모드
+   =============================== */
+body.dark-mode {
+  --sidebar-bg: #1f2937;
+  --card-bg: #374151;
+  --link-color: #a5b4fc;
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark-mode .transaction-btn-search {
+  background: #16a34a;
+}
+body.dark-mode .transaction-btn-write {
+  background: #3b82f6;
+}
+body.dark-mode .transaction-card-title a:hover {
+  color: #34d399;
+}
+body.dark-mode .transaction-map {
+  background: #1f2937;
+  color: #9ca3af;
+}

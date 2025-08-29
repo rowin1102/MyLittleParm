@@ -1,0 +1,117 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>자유게시판</title>
+  <c:set var="ctx" value="${pageContext.request.contextPath}" />
+  <link rel="stylesheet" href="${ctx}/css/main.css" />
+  <link rel="stylesheet" href="${ctx}/css/board.css" />
+</head>
+<body>
+
+<%@ include file="/WEB-INF/views/include/nav.jsp" %>
+
+<section class="board-layout section" style="padding-top:2rem;">
+  <div class="board-container">
+
+    <!-- 사이드바 -->
+    <aside class="board-sidebar">
+      <nav class="sidebar-card">
+        <h3 class="sidebar-title">커뮤니티</h3>
+        <ul class="sidebar-menu">
+          <li class="active"><a href="${ctx}/boardList.do">소통게시판</a></li>
+          <li><a href="${ctx}/boardNoticeList.do">공지사항</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- 콘텐츠 -->
+    <main class="board-content">
+      <div class="board-card">
+        <h2>소통게시판</h2>
+
+        <!-- 검색/필터 -->
+        <form method="get" action="${ctx}/boardList.do">
+          <div class="board-actions">
+            <select name="searchField">
+              <option value="board_title"   <c:if test="${maps.searchField == 'board_title'}">selected</c:if>>제목</option>
+              <option value="board_content" <c:if test="${maps.searchField == 'board_content'}">selected</c:if>>내용</option>
+              <option value="writer"        <c:if test="${maps.searchField == 'writer'}">selected</c:if>>작성자</option>
+            </select>
+            <input type="text" name="searchKeyword"
+                   value="${fn:escapeXml(maps.searchKeyword)}"
+                   placeholder="검색어를 입력하세요" />
+            <input type="submit" value="검색하기" />
+            <span class="spacer"></span>
+            <sec:authorize access="isAuthenticated()">
+			      <button type="button" class="btn primary"
+			              onclick="location.href='${ctx}/boardWrite.do'">
+			          글쓰기
+			      </button>
+          	</sec:authorize>
+          </div>
+        </form>
+
+        <!-- 게시판 목록 -->
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th width="10%">번호</th>
+                <th>제목</th>
+                <th width="14%">작성자</th>
+                <th width="16%">작성일</th>
+                <th width="12%">조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:choose>
+                <c:when test="${empty lists}">
+                  <tr>
+                    <td colspan="5">
+                      <div class="board-empty">등록된 게시글이 없습니다.</div>
+                    </td>
+                  </tr>
+                </c:when>
+                <c:otherwise>
+                  <c:forEach var="row" items="${lists}" varStatus="st">
+                    <tr>
+                      <td style="text-align:center;">
+                        ${maps.totalCount - (((maps.pageNum-1) * maps.pageSize) + st.index)}
+                      </td>
+                      <td style="text-align:left;">
+                        <a href="${ctx}/boardView.do?board_idx=${row.board_idx}&pageNum=${maps.pageNum}&searchField=${maps.searchField}&searchKeyword=${fn:escapeXml(maps.searchKeyword)}">
+                          ${row.board_title}
+                        </a>
+                      </td>
+                      <td style="text-align:center;">${row.writer}</td>
+                      <td style="text-align:center;">
+                        <fmt:formatDate value="${row.board_date}" pattern="yyyy-MM-dd" />
+                      </td>
+                      <td style="text-align:center;">${row.board_visitcount}</td>
+                    </tr>
+                  </c:forEach>
+                </c:otherwise>
+              </c:choose>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 페이징 -->
+        <div class="pagination">
+          ${pagingImg}
+        </div>
+      </div>
+    </main>
+
+  </div>
+</section>
+
+<script src="${ctx}/js/main.js"></script>
+</body>
+</html>

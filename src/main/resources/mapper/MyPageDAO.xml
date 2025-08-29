@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.spring.projectjs.jdbc.IMyPage">
+
+    <!-- 상세보기 -->
+    <select id="myPage_view"
+            parameterType="org.spring.projectjs.jdbc.MyPageDTO"
+            resultType="org.spring.projectjs.jdbc.MyPageDTO">
+        select * from member where user_id=#{user_id}
+    </select>
+
+    <!-- 상세보기 수정하기 -->
+    <update id="updateMyPageEdit"
+            parameterType="org.spring.projectjs.jdbc.MyPageDTO">
+        update member
+        set email=#{email},
+            domain=#{domain},
+            phone=#{phone},
+            nickname=#{nickname}
+        where user_id=#{user_id}
+    </update>
+
+    <!-- 회원 탈퇴: user_id 기준 삭제 -->
+    <!-- ★ 단일 파라미터는 기본이 param1 이므로 #{param1} 사용 -->
+    <delete id="myPageMemberDelete" parameterType="string">
+        DELETE FROM member
+        WHERE user_id = #{param1}
+    </delete>
+
+    <!-- 닉네임이 있는지 체크 -->
+    <select id="checkDuplicateNicknameExceptSelf" resultType="int">
+        SELECT count(*)
+        FROM member
+        WHERE nickname = #{param1}
+          AND user_id != #{param2}
+    </select>
+
+    <select id="myPageBoardTotalCount"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="int">
+        select count(*) from board
+        where board_id = 1 and writer = #{param2}
+        <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+            and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+        </if>
+    </select>
+
+    <select id="myPageBoardListPage"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="org.spring.projectjs.jdbc.BoardDTO">
+        select * from (
+            select Tb.*, rownum rNum from (
+                select * from board
+                where board_id = 1 and writer = #{param2}
+                <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+                    and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+                </if>
+                order by board_idx desc
+            ) Tb
+        )
+        where rNum <![CDATA[>=]]> #{parameterDTO.start}
+          and rNum <![CDATA[<=]]> #{parameterDTO.end}
+    </select>
+
+    <select id="myPage_board_comment_count"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="int">
+        select count(*) from boardcomment where writer = #{param2}
+        <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+            and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+        </if>
+    </select>
+
+    <!-- 댓글 가져오기 -->
+    <select id="myPage_board_comment_select"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="org.spring.projectjs.jdbc.CommentDTO">
+        select * from (
+            select Tb.*, rownum rNum from (
+                select * from boardcomment
+                where writer = #{param2}
+                <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+                    and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+                </if>
+                order by comment_idx desc
+            ) Tb
+        )
+        where rNum <![CDATA[>=]]> #{parameterDTO.start}
+          and rNum <![CDATA[<=]]> #{parameterDTO.end}
+    </select>
+
+    <select id="myPage_transaction_count"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="int">
+        select count(*) from transaction where writer = #{param2}
+        <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+            and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+        </if>
+    </select>
+
+    <select id="myPage_transaction_select"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="org.spring.projectjs.jdbc.TransactionDTO">
+        select * from (
+            select Tb.*, rownum rNum from (
+                select * from transaction
+                where writer = #{param2}
+                <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+                    and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+                </if>
+                order by transaction_idx desc
+            ) Tb
+        )
+        where rNum <![CDATA[>=]]> #{parameterDTO.start}
+          and rNum <![CDATA[<=]]> #{parameterDTO.end}
+    </select>
+
+    <select id="myPage_boardNotice_count"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="int">
+        select count(*) from boardcomment where writer = #{param2}
+        <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+            and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+        </if>
+    </select>
+
+    <select id="myPage_boardNotice_select"
+            parameterType="org.spring.projectjs.jdbc.ParameterDTO"
+            resultType="org.spring.projectjs.jdbc.CommentDTO">
+        select * from (
+            select Tb.*, rownum rNum from (
+                select * from boardcomment
+                where writer = #{param2}
+                <if test="parameterDTO.searchKeyword != null and !parameterDTO.searchKeyword.equals('')">
+                    and ${parameterDTO.searchField} like '%'||#{parameterDTO.searchKeyword}||'%'
+                </if>
+                order by comment_idx desc
+            ) Tb
+        )
+        where rNum <![CDATA[>=]]> #{parameterDTO.start}
+          and rNum <![CDATA[<=]]> #{parameterDTO.end}
+    </select>
+
+</mapper>
