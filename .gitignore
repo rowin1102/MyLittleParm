@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Spring Boot properties (보안 설정) ###
+src/main/resources/application.properties
