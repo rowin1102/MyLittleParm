@@ -26,6 +26,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.cors.CorsConfiguration;
@@ -200,11 +201,29 @@ public class WebSecurityConfig {
 
   @Bean
   AuthenticationSuccessHandler loginSuccessHandler() {
+    SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
+    handler.setDefaultTargetUrl("/");
+
     return (request, response, authentication) -> {
       System.out.println("[LOGIN] " + authentication.getName() + " => " + authentication.getAuthorities());
-      String target = request.getParameter("redirect");
-      if (target != null && !target.isBlank()) response.sendRedirect(target);
-      else response.sendRedirect("/");
+
+      String redirect = request.getParameter("redirect");
+      if (redirect != null && !redirect.isBlank()) {
+        if (isAllowedInternalRedirect(redirect)) {
+          response.sendRedirect(request.getContextPath() + redirect);
+        } else {
+          response.sendRedirect(request.getContextPath() + "/");
+        }
+        return;
+      }
+
+      handler.onAuthenticationSuccess(request, response, authentication);
     };
+  }
+
+  private boolean isAllowedInternalRedirect(String redirect) {
+    return redirect.startsWith("/")
+        && !redirect.startsWith("//")
+        && !redirect.contains("://");
   }
 }
